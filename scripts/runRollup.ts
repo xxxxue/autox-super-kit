@@ -37,13 +37,6 @@ export let runRollup = async () => {
                     return code;
                 },
             },
-            {
-                name: 'autox-keep-var-name',
-                transform(code, id) {
-
-                    return code;
-                },
-            },
             typescript(), // ts 编译为 js
             commonjs(), // commonjs 转为 es 模块
             resolve(), // 解析 node_modules 中的 npm 包
