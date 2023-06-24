@@ -15,7 +15,7 @@
 
   - [x] 自动识别 UI 中使用到的变量, 跳过该变量的混淆. (由 babel 支持)
 
-- [ ] 将 js 转为 dex ( 正在做了,准备魔改一个最新版 Rhino.jar )
+- [x] 把 js 转为 dex , 并将字符串加密.  [github.com/xxxxue/Autojs_Rhino_Dex](https://github.com/xxxxue/Autojs_Rhino_Dex)
 
 # 💻 编码环境
 
