@@ -9,7 +9,7 @@ import path from 'node:path';
 import { minify } from 'terser';
 import { getKeepVarNameArr, getUiBlockCodeArr } from './myUtils';
 export let runRollup = async () => {
-    console.log("开始编译代码...");
+    console.log("开始编译代码...");  
 
     let timeLabel = "runRollup:编译时间:";
     console.time(timeLabel)
@@ -94,6 +94,11 @@ export let runRollup = async () => {
 
     // 在顶部添加上  autox 的 "ui" 标志 (有界面的脚本)
     code = '"ui";\n' + code;
+
+    if (!fs.existsSync("out")) {
+        console.log("创建 out 目录");        
+        fs.mkdirSync("out")
+    }
 
     // 写入文件
     fs.writeFileSync(path.join(process.cwd(), "out", out.output[0].fileName), code)
