@@ -121,68 +121,19 @@ declare let ScrollView: (props: any) => JSX.IntrinsicElements
 declare let TableLayout: (props: any) => JSX.IntrinsicElements
 declare let TableRow: (props: any) => JSX.IntrinsicElements
 
-declare let floaty
 
-declare let console
-
-declare function toast(v: any): void
-declare function toastLog(...p): void
-declare function exit(): void
-/**
- * 返回一个在[min...max]之间的随机数。
- * @example
- * random(0, 2)
- * 可能产生 0, 1, 2。
- * @param min 
- * @param max 
- */
-declare function random(min: number, max: number): number
-declare function random(): number
-
-declare function importClass(name: string): void
-
-declare let storages
-
-declare let files
+declare let importClass
+declare let importPackage
+declare let Packages
 
 
-declare let threads
 
-declare let http
-
-declare let dialogs
-
-
-declare let sleep: (ms: number) => void
-
-
-declare let device
-
-declare let alert
-
-declare let events 
-
-declare let app 
-
-declare let  android 
-
-declare class StringBuilder {
-  
-    constructor(...p){
-
-    }
-    append
-}
-
+declare let app
 
 declare let web
 
-declare class JavaAdapter {
-    constructor(...p){}
-}
+declare let android
 
-
-declare let context
 
 declare let log
 
@@ -194,3 +145,281 @@ declare let Date
 declare let open
 
 declare let rawInput
+// App
+declare let app
+
+// 设备 - Device
+declare let device
+
+// 全局变量与函数
+declare let sleep
+declare let currentPackage
+declare let currentActivity
+declare let setClip
+declare let getClip
+declare let toast
+declare let toastLog
+declare let waitForActivity
+declare let waitForPackage
+declare let exit
+declare let random
+declare let requiresApi
+declare let requiresAutojsVersion
+declare let runtime
+declare let context
+
+// 基于控件的操作
+declare let auto
+
+declare let click
+declare let longClick
+declare let scrollUp
+declare let scrollDown
+declare let setText
+declare let input
+
+declare let text
+declare let textContains
+declare let textStartsWith
+declare let textEndsWith
+declare let textMatches
+
+declare let desc
+declare let descContains
+declare let descStartsWith
+declare let descEndsWith
+declare let descMatches
+
+declare let id
+declare let idContains
+declare let idStartsWith
+declare let idEndsWith
+declare let idMatches
+
+declare let className
+declare let classNameContains
+declare let classNameStartsWith
+declare let classNameEndsWith
+declare let classNameMatches
+declare let packageName
+declare let packageNameContains
+declare let packageNameStartsWith
+declare let packageNameEndsWith
+declare let packageNameMatches
+declare let bounds
+declare let boundsInside
+declare let boundsContains
+
+//基于坐标的操作
+declare let setScreenMetrics
+declare let press
+declare let swipe
+declare let gesture
+
+declare class JavaAdapter {
+    constructor(...p) { }
+    tap
+    swipe
+    press
+    longPress
+    touchDown
+    touchMove
+    touchUp
+    [x: string]: any
+}
+
+declare let Tap
+declare let Swipe
+
+
+// 按键模拟
+declare let back
+declare let home
+declare let powerDialog
+declare let notifications
+quickSettings
+recents
+splitScreen
+takeScreenshot
+lockScreen
+dismissNotificationShade
+keyCodeHeadsetHook
+accessibilityShortcut
+accessibilityButtonChooser
+accessibilityButton
+accessibilityAllApps
+Home
+Back
+Power
+Menu
+VolumeUp
+VolumeDown
+Camera
+Up
+Down
+Left
+Right
+OK
+Text
+KeyCode
+
+// 文件系统 Files
+declare let files
+
+
+// HTTP
+
+declare let http
+
+// webSocket
+
+declare class OkHttpClient {
+    constructor(...p) { }
+    static Builder
+    [x: string]: any
+}
+declare class Request {
+    constructor(...p) { }
+    static Builder
+    [x: string]: any
+}
+
+declare class WebSocketListener {
+    constructor(...p) { }
+    [x: string]: any
+}
+
+
+
+// 本地存储 Storages
+declare let storages
+declare let Storage
+
+// 控制台 Console
+declare let console
+declare let print
+
+
+// 定时器 Timers
+declare let setInterval
+declare let setTimeout
+declare let setImmediate
+declare let clearInterval
+declare let clearTimeout
+declare let clearImmediate
+
+
+
+// 多线程 Threads
+declare let threads
+declare let Thread
+declare let sync
+declare let events
+
+// 对话框 Dialogs
+declare let dialogs
+declare let alert
+
+// 悬浮窗 Floaty
+declare let floaty
+
+// 脚本引擎 Engines
+declare let engines
+
+// 画布 Canvas
+declare let canvas
+
+declare class Paint {
+    constructor(...p) {
+
+    }
+    [x: string]: any
+}
+
+// 模块 Modules (使用 rollup + babel + es module)
+
+
+// OCR 文字识别
+declare let paddle
+declare let gmlkit
+
+declare class TessBaseAPI {
+    constructor(...p) { }
+    [x: string]: any
+}
+declare let com
+declare let requestScreenCapture
+declare let captureScreen
+
+
+// 图片与颜色 Images
+declare let colors
+declare let images
+
+// 事件与监听 Events
+declare let events
+
+declare let emitter
+
+// Base64
+declare let $base64
+
+
+// 消息处理(加密,摘要) Crypto
+declare class $crypto {
+    constructor(...p) { }
+    static Key
+    static encrypt
+    static decrypt
+    static generateKeyPair
+    static digest
+
+    [x: string]: any
+}
+
+// 压缩与解压 Zip
+
+declare let zips
+
+// 多媒体 Media
+
+declare let media
+
+// 传感器 Sensors
+declare let sensors
+
+
+// 协程 (TODO)
+
+// WebView 与 HTML (TODO)
+
+
+//执行命令 Shell
+declare let shell
+declare class Shell{
+    constructor(...p){
+
+    }
+    [x: string]: any
+}
+
+
+// 调用 Java
+
+declare class StringBuilder {
+
+    constructor(...p) {
+
+    }
+    [x: string]: any
+}
+
+
+declare class JavaAdapter {
+    constructor(...p) { }
+    [x: string]: any
+}
+
+// axios (TODO)
+
+// npm模块 (TODO)
