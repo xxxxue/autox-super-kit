@@ -4,18 +4,43 @@ import commonjs from "@rollup/plugin-commonjs";
 import fs from "node:fs";
 import { getBabelOutputPlugin } from "@rollup/plugin-babel";
 import typescript from "@rollup/plugin-typescript";
-import { format } from 'prettier';
 import path from 'node:path';
 import { minify } from 'terser';
 import { getKeepVarNameArr, getUiBlockCodeArr } from './myUtils';
+import { execSync } from 'node:child_process';
+import { networkInterfaces } from 'node:os';
+import { rimrafSync } from 'rimraf';
 export let runRollup = async () => {
-    console.log("开始编译代码...");  
+
+    let node_env = process.env.Node_Env;
+    let outDirPath = path.join(process.cwd(), "out");
+    let distDirPath = path.join(process.cwd(), "dist");
+    myLog("开始编译代码...");
 
     let timeLabel = "runRollup:编译时间:";
     console.time(timeLabel)
 
+    if (node_env == 'prod') {
+        myLog("执行 npx vite build , 打包 react 代码");
+
+        let execOutContent = execSync("npx vite build", {
+            cwd: process.cwd(),
+            encoding: 'utf-8'
+        })
+
+        console.log(execOutContent);
+    }
+
+    if (node_env == "prod") {
+        myLog("清空 out 目录")
+
+        rimrafSync(outDirPath)
+    }
+
+    myLog("使用 rollup 打包 autox 代码");
+
     let ro = await rollup({
-        input: "src/main.tsx",
+        input: "autox/main.tsx",
         output: {
             file: "out/main.js",
             format: "esm",
@@ -31,15 +56,35 @@ export let runRollup = async () => {
                     // 如果不处理,则 babel ast 无法识别 , 因为 jsx 不是 js,
                     if (!id.includes("node_modules")) {
                         code = code.replace(/<>/g, "`").replace(/<\/>/g, "`");
-                    }
-                    //console.log("处理:", id);
 
+                        if (node_env == "dev") {
+                            code = code.replace(/aj.initUi\((.*?)\)/g, `aj.initUi("${getIPAddress()}:5173","web-url")`)
+                        } else if (node_env == 'prod') {
+
+                            code = code.replace(/aj.initUi\((.*?)\)/g, `aj.initUi("./index.html","file-path")`)
+
+                            if (code.includes(`aj.initUi("./index.html","file-path")`)) {
+                                myLog("替换 aj.initUI 为 index.html");
+                                console.log(id);
+                                console.log("");
+
+                            }
+                        }
+                    }
                     return code;
                 },
             },
-            typescript(), // ts 编译为 js
+            typescript({
+                
+                tsconfig: './tsconfig.autox.json',
+                composite:false,
+                // declarationDir: ".declarationOutDir",
+
+            }), // ts 编译为 js
             commonjs(), // commonjs 转为 es 模块
-            resolve(), // 解析 node_modules 中的 npm 包
+            resolve({
+                extensions: ['.js', '.jsx', '.ts', '.tsx'], // 添加所需的文件扩展名
+            }), // 解析 node_modules 中的 npm 包
             getBabelOutputPlugin({
                 // 使用 babel 把 es6 的代码, 编译为 es5,,并注入标准库垫片
                 presets: ["@babel/preset-env"],
@@ -56,58 +101,119 @@ export let runRollup = async () => {
 
     let code = out.output[0].code;
 
-    // 提取 ui 中绑定的变量名
-    let keepVarNameArr: string[] = []
-    let uiBlockCodeArr = getUiBlockCodeArr(code)
-    for (const item of uiBlockCodeArr) {
+    if (node_env == 'prod') {
+        myLog("开始混淆代码");
 
-        // 使用 babel 提取关键字
-        let nameArr = getKeepVarNameArr(item)
-        for (const name of nameArr) {
-            if (!keepVarNameArr.includes(name)) {
-                keepVarNameArr.push(name)
+        // 提取 ui 中绑定的变量名
+        let keepVarNameArr: string[] = []
+        let uiBlockCodeArr = getUiBlockCodeArr(code)
+        for (const item of uiBlockCodeArr) {
+
+            // 使用 babel 提取关键字
+            let nameArr = getKeepVarNameArr(item)
+            for (const name of nameArr) {
+                if (!keepVarNameArr.includes(name)) {
+                    keepVarNameArr.push(name)
+                }
             }
         }
+
+        console.log("保留的变量名:", keepVarNameArr);
+
+        // 使用 terser 进行 混淆/压缩
+        let t = await minify(code, {
+            // 混淆
+            mangle: {
+                // 保留变量名
+                reserved: keepVarNameArr
+            },
+            compress: {
+                // false 不要删除未使用的变量与方法
+                unused: false
+            },
+            toplevel: true, // 由于 js 代码中有 eval() , 所以不会混淆全局作用于的名称 , toplevel:true 无效
+        });
+
+        // 拿到 混淆后的代码
+        code = t.code!;
     }
 
-    console.log("保留的变量名:", keepVarNameArr);
-
-    // 使用 terser 进行 混淆/压缩
-    let t = await minify(code, {
-        // 混淆
-        mangle: {
-            // 保留变量名
-            reserved: keepVarNameArr
-        },
-        compress: {
-            // false 不要删除未使用的变量与方法
-            unused: false
-        },
-        toplevel: true, // false:只修改局部代码, true: 修改 全局+局部 代码
-    });
-
-    // 拿到 混淆后的代码
-    code = t.code!;
-
     //使用 prettier 格式化一下
-    code = format(code, { parser: 'babel' })
+    // code = format(code, { parser: 'babel' })
+
+    myLog('给代码顶部添加上 "ui" 标志');
 
     // 在顶部添加上  autox 的 "ui" 标志 (有界面的脚本)
     code = '"ui";\n' + code;
 
+    myLog("写入代码到 out 目录");
     if (!fs.existsSync("out")) {
-        console.log("创建 out 目录");        
+        myLog("创建 out 目录");
         fs.mkdirSync("out")
     }
-
     // 写入文件
-    fs.writeFileSync(path.join(process.cwd(), "out", out.output[0].fileName), code)
+    fs.writeFileSync(path.join(outDirPath, out.output[0].fileName), code)
 
     // 写入 project.json
-    fs.copyFileSync(path.join(process.cwd(), "project.json"), path.join(process.cwd(), "out", "project.json"))
+    fs.copyFileSync(path.join(process.cwd(), "project.json"), path.join(outDirPath, "project.json"))
+
+    if (node_env == 'prod') {
+        myLog("复制 index.html 到 out 目录");
+        copyFolder(distDirPath, outDirPath)
+        let htmlPath = path.join(outDirPath, "index.html");
+        let htmlCode = fs.readFileSync(htmlPath, { encoding: 'utf-8' });
+
+        htmlCode = htmlCode.replace(/"\/assets\//g, `"assets/`);
+        fs.writeFileSync(htmlPath, htmlCode)
+    }
 
     await ro.close();
 
     console.timeEnd(timeLabel); // 耗时
-    console.log("代码编译完成...");
+    myLog("代码编译完成...");
+}
+
+function myLog(msg) {
+    console.log("---------------------------- " + msg);
+
+}
+
+function copyFolder(sourceDir, targetDir) {
+    // 创建目标文件夹
+    fs.mkdirSync(targetDir, { recursive: true });
+
+    // 读取源文件夹中的所有文件和子文件夹
+    const files = fs.readdirSync(sourceDir);
+
+    // 遍历每个文件/文件夹
+    files.forEach((file) => {
+        const sourcePath = path.join(sourceDir, file);
+        const targetPath = path.join(targetDir, file);
+
+        // 判断当前项是文件还是文件夹
+        if (fs.statSync(sourcePath).isDirectory()) {
+            // 如果是文件夹，则递归调用 copyFolder()
+            copyFolder(sourcePath, targetPath);
+        } else {
+            // 如果是文件，则复制到目标文件夹中
+            fs.copyFileSync(sourcePath, targetPath);
+        }
+    });
+}
+
+function getIPAddress(): string {
+    let interfaces = networkInterfaces();
+    for (let devName in interfaces) {
+        let iface = interfaces[devName]!;
+        for (let i = 0; i < iface.length; i++) {
+            let alias = iface[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+
+                return alias.address;
+            }
+        }
+    }
+    console.log("获取 本机ip 失败");
+
+    return "";
 }

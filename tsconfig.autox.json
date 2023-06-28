@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "composite": true,
+
+    "module": "ESNext",
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "jsx": "preserve",
+    "noEmit": false,
+    "strict": false,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "types": ["./types/autox.d.ts"],
+  },
+  "include": ["autox"]
+}
