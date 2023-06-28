@@ -4,8 +4,7 @@
 
 - [x] 复刻一个服务程序, 用于连接 Autox , 支持 自动编译与运行
 
-- [x] 
-  将所有模块编译为一个文件 ( 由 rollup 支持)
+- [x] 将所有模块编译为一个文件 ( 由 rollup 支持)
 
 - [x] 支持 TypeScript 编写代码
 
@@ -16,7 +15,23 @@
 
   - [x] 自动识别 UI 中使用到的变量, 跳过该变量的混淆. (由 babel 支持)
 
-- [x] 把 js 转为 dex , 并将字符串加密.  [github.com/xxxxue/Autojs_Rhino_Dex](https://github.com/xxxxue/Autojs_Rhino_Dex)
+- [x] 把 js 转为 dex , 并将字符串加密.  [xxxxue/Autojs_Rhino_Dex](https://github.com/xxxxue/Autojs_Rhino_Dex)
+  
+- [x] 使用 React.js (web) 写界面 [xxxxue/autox-super-kit/tree/web](https://github.com/xxxxue/autox-super-kit/tree/web)
+
+# Git
+
+使用 `degit`
+
+```
+npx degit xxxxue/autox-super-kit my-app
+```
+
+使用 `git` (会把 git 变更记录都克隆)
+
+```
+git clone https://github.com/xxxxue/autox-super-kit.git
+```
 
 # 💻 编码环境
 
