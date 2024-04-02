@@ -69,6 +69,7 @@ function bridgeHandler_handle(cmd, args) {
   } else {
     // 调用方法
     /** @type {Function} */
+    // https://github.com/xxxxue/autojs_web/commit/8971b822ca898ae9197c97902e0f329088f0be16
     let fun = this[cmd];
     if (!fun) {
       throw new Error("cmd= " + cmd + " 没有定义实现");
