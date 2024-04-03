@@ -18,13 +18,13 @@ function App() {
           // auto.invoke("ajFun3", "我是react", (a) => {
           //   alert("回调成功" + a);
           // });          
-          auto.execAjCode("files.read('/sdcard/test.txt')", (text: string) => {
-            setContent(text);
-          });
-          // auto.invoke("ajFun4", ["我是web", true, 32], (r) => {
-          //   // alert(`ajFun4 的返回值: ${typeof r}, ${JSON.stringify(r)}`);
-          //   setContent(JSON.stringify(r, null, 2));
+          // auto.execAjCode("files.read('/sdcard/test.txt')", (text: string) => {
+          //   setContent(text);
           // });
+          auto.invoke("ajFun4", ["我是web", true, 32], (r) => {
+            // alert(`ajFun4 的返回值: ${typeof r}, ${JSON.stringify(r)}`);
+            setContent(JSON.stringify(r, null, 2));
+          });
         }}
       >
         点我asdf
