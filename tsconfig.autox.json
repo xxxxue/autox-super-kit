@@ -1,0 +1,17 @@
+// Auto.js 专用
+{
+  "compilerOptions": {
+    "composite": true,
+    "target": "ESNext",
+    "jsx": "preserve",
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "types": ["./types/autox.d.ts"],
+    "strict": false,
+    "strictNullChecks": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src-autox", "src-runtime/runtime-autojs.ts"]
+}
