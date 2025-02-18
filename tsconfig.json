@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "outDir": "dist",
+    "jsx": "preserve",
+    "noEmit": true,
+    "strict": false,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,    
+  },
+  "include": ["src/**/*", "types/**/*.d.ts"],
+  "exclude": ["out/**/*"]
+}
