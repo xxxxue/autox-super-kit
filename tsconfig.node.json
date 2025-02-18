@@ -1,0 +1,13 @@
+// 本地工具专用
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "types": ["./types/node.d.ts"]
+  },
+  "include": ["scripts", "vite.config.ts", "plugins"]
+}
