@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ES2022",
+    "jsx": "preserve", // 保留 jsx
+    "lib": ["ES2023"],
+    "moduleDetection": "force", // 所有文件都视为模块 (默认是 至少有一个 import / export,才会被视为模块, globalThis 才不会报错)
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["./types/autox.d.ts"], // 指定 类型定义
+    // "allowImportingTsExtensions": true,
+    "strict": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false, // 关闭 any 报错
+    "noUnusedLocals": false, // 关闭 未使用的变量
+    "noUnusedParameters": false, // 关闭 未使用的参数
+    "useUnknownInCatchVariables": false, // 关闭 catch 的类型为 unknown
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src-autox", "src-runtime/runtime-autojs.ts"]
+}

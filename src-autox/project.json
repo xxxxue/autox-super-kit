@@ -1,0 +1,13 @@
+{
+  "name": "新建项目",
+  "main": "main.js",
+  "ignore": [
+    "build"
+  ],
+  "launchConfig": {
+    "displaySplash": false
+  },
+  "packageName": "com.example",
+  "versionName": "1.0.0",
+  "versionCode": 1
+}

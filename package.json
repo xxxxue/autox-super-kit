@@ -1,0 +1,68 @@
+{
+  "name": "autox-super-kit",
+  "type": "module",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
+  "scripts": {
+    "dev": "cross-env My_Node_Env=dev tsx ./scripts/dev.ts",
+    "dev:prod": "cross-env My_Node_Env=prod tsx ./scripts/dev.ts",
+    "build": "cross-env My_Node_Env=prod  tsx ./scripts/build.ts",
+    "build:dev": "cross-env My_Node_Env=dev  tsx ./scripts/build.ts",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "update-git-hooks": "npx simple-git-hooks"
+  },
+  "dependencies": {
+    "lodash.clonedeep": "^4.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.11.0",
+    "@babel/preset-env": "^7.26.9",
+    "@eslint-react/eslint-plugin": "^1.38.0",
+    "@inquirer/prompts": "^7.4.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/archiver": "^6.0.3",
+    "@types/lodash.clonedeep": "^4.5.9",
+    "@types/node": "^22.13.13",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "@types/stream-buffers": "^3.0.7",
+    "@types/websocket": "^1.0.10",
+    "@vitejs/plugin-react": "^4.3.4",
+    "archiver": "^7.0.1",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.23.0",
+    "eslint-plugin-format": "^1.0.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "lint-staged": "^15.5.0",
+    "rollup": "^4.37.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "simple-git-hooks": "^2.12.1",
+    "stream-buffers": "^3.0.3",
+    "terser": "^5.39.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "unplugin": "^2.2.2",
+    "uqr": "^0.1.2",
+    "vite": "^6.2.3",
+    "vite-plugin-singlefile": "^2.2.0",
+    "websocket": "1.0.35"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}
